@@ -12,7 +12,7 @@ app.use(cors());
 app.use(
   cors({
     origin:
-      "https://jobtrackerfrontend-1lg7aomku-shashi-suhas-projects.vercel.app/",
+      "https://jobtrackerfrontend-1lg7aomku-shashi-suhas-projects.vercel.app",
   })
 );
 app.use(express.json());
