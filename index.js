@@ -4,9 +4,9 @@ const app = express();
 require("dotenv").config();
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
-const signup = require("../JobTracker-BackEnd/Routes/signup.js");
-const login = require("../JobTracker-BackEnd/Routes/login.js");
-const users = require("../JobTracker-BackEnd/Routes/user.js");
+const signup = require("./Routes/signup.js");
+const login = require("./Routes/login.js");
+const users = require("./Routes/user.js");
 const cors = require("cors");
 app.use(cors());
 app.use(
