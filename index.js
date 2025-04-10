@@ -11,7 +11,8 @@ const cors = require("cors");
 app.use(cors());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin:
+      "https://jobtrackerfrontend-1lg7aomku-shashi-suhas-projects.vercel.app/",
   })
 );
 app.use(express.json());
