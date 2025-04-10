@@ -9,12 +9,15 @@ const login = require("./Routes/login.js");
 const users = require("./Routes/user.js");
 const cors = require("cors");
 app.use(cors());
-app.use(
-  cors({
-    origin:
-      "https://jobtrackerfrontend-git-main-shashi-suhas-projects.vercel.app",
-  })
-);
+const allowedOrigins = [
+  "https://jobtrackerfrontend-git-main-shashi-suhas-projects.vercel.app",
+  "http://localhost:5173",
+];
+const corsOptions = {
+  origin: allowedOrigins,
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use("/user", users);
