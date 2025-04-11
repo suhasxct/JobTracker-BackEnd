@@ -10,27 +10,36 @@ router.post("/login", async function (req, res) {
     const email = req.body.email;
     const password = req.body.password;
 
-    const response = await UserModel.findOne({ email });
+    const response = await UserModel.findOne({
+      email,
+    });
     if (!response) {
-      return res.json({ message: "User Doesn't Exist" });
+      return res.json({
+        message: "User Doesnt exsist",
+      });
     }
 
-    const passwordMatch = await bcrypt.compare(password, response.password);
+    const passwordMatch = bcrypt.compare(password, response.password);
     if (passwordMatch) {
       const token = jwt.sign(
-        { id: response._id.toString() },
+        {
+          id: response._id.toString(),
+        },
         JWT_SECRET
       );
-      return res.json({
-        message: "Login Successfull",
+      res.json({
+        Messsage: "Login Successfull",
         token: token,
       });
     } else {
-      return res.json({ message: "Incorrect Password" });
+      res.json({
+        message: "Incorrect Password",
+      });
     }
   } catch (e) {
-    console.error(e);
-    return res.status(500).json({ message: "Server Error" });
+    res.send({
+      message: "server Error",
+    });
   }
 });
 
