@@ -6,7 +6,8 @@ const { JobApplicationModel } = require("../DB");
 router.get("/", middleware, async function (req, res) {
   function offer(response) {
     const resp = response.filter((obj) => {
-      return obj.status.toLowerCase() === "offered";
+      const status = obj.status.toLowerCase();
+       return status === "offered" || status.includes("offer");
     });
     if (resp.length == 0) {
       res.send({
@@ -18,7 +19,8 @@ router.get("/", middleware, async function (req, res) {
   }
   function apply(response) {
     const resp = response.filter((obj) => {
-      return obj.status.toLowerCase() === "applied";
+      const status = obj.status.toLowerCase();
+      return status === "applied" || status.includes("apply");
     });
     if (resp.length == 0) {
       res.send({
@@ -38,7 +40,8 @@ router.get("/", middleware, async function (req, res) {
 
   function reject(response) {
     const resp = response.filter((obj) => {
-      return obj.status.toLowerCase() === "rejected";
+      const status = obj.status.toLowerCase();
+      return status === "rejected" || status.includes("reject");
     });
     if (resp.length == 0) {
       res.send({
