@@ -22,7 +22,7 @@ router.post("/login", async function (req, res) {
         JWT_SECRET
       );
       return res.json({
-        message: "Login Successful",
+        message: "Login Successfull",
         token: token,
       });
     } else {
