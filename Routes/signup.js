@@ -9,10 +9,7 @@ router.post("/signup", function (req, res) {
     email: z.string().email({ message: "Invalid email format" }),
     password: z
       .string()
-      .min(8, { message: "Password must be at least 8 characters long" })
-      .regex(/[a-z]/, { message: "Password must contain a lowercase letter" })
-      .regex(/[A-Z]/, { message: "Password must contain an uppercase letter" })
-      .regex(/[0-9]/, { message: "Password must contain a number" }),
+      .min(4, { message: "Password must be at least 8 characters long" }),
     firstname: z.string(),
     lastname: z.string(),
   });
@@ -23,35 +20,41 @@ router.post("/signup", function (req, res) {
     });
     return;
   }
-  const email = req.body.email;
-  const password = req.body.password;
-  const firstname = req.body.firstname;
-  const lastname = req.body.lastname;
+  try {
+    const email = req.body.email;
+    const password = req.body.password;
+    const firstname = req.body.firstname;
+    const lastname = req.body.lastname;
 
-  bcrypt.hash(password, 5, async function (err, hash) {
-    if (err) {
-      res.json({
-        Error: "Hashing Error",
-      });
-    } else {
-      try {
-        await UserModel.create({
-          email,
-          password: hash,
-          firstname,
-          lastname,
-        });
-      } catch (e) {
+    bcrypt.hash(password, 5, async function (err, hash) {
+      if (err) {
         res.json({
-          Error: "Email already Exsist",
+          Error: "Hashing Error",
         });
-        return;
+      } else {
+        try {
+          await UserModel.create({
+            email,
+            password: hash,
+            firstname,
+            lastname,
+          });
+        } catch (e) {
+          res.json({
+            Error: "Email already Exsist",
+          });
+          return;
+        }
       }
-    }
-  });
-  res.json({
-    message: "Signedin Successfully",
-  });
+    });
+    res.json({
+      message: "Signedin Successfully",
+    });
+  } catch (e) {
+    res.send({
+      message: "Server Error",
+    });
+  }
 });
 
 module.exports = router;

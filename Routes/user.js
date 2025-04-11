@@ -100,21 +100,34 @@ router.post("/addJob", middleware, async function (req, res) {
 
 router.post("/updateJob", middleware, async function (req, res) {
   try {
-    await JobApplicationModel.findByIdAndUpdate(req.headers.id, {
-      Company: req.body.Company,
-      Role: req.body.Role,
-      status: req.body.status,
-      url: req.body.url,
-    });
+    const updateFields = {};
+
+    if (req.body.Company !== null && req.body.Company !== undefined) {
+      updateFields.Company = req.body.Company;
+    }
+    if (req.body.Role !== null && req.body.Role !== undefined) {
+      updateFields.Role = req.body.Role;
+    }
+    if (req.body.status !== null && req.body.status !== undefined) {
+      updateFields.status = req.body.status;
+    }
+    if (req.body.url !== null && req.body.url !== undefined) {
+      updateFields.url = req.body.url;
+    }
+
+    await JobApplicationModel.findByIdAndUpdate(req.headers.id, updateFields);
+
     res.json({
       message: "Job updated successfully",
     });
   } catch (e) {
-    res.send({
+    console.error("Error updating job:", e);
+    res.status(500).send({
       message: "Server Error",
     });
   }
 });
+
 router.post("/delJob", middleware, async function (req, res) {
   try {
     await JobApplicationModel.findByIdAndDelete(req.headers.id);
