@@ -102,16 +102,16 @@ router.post("/updateJob", middleware, async function (req, res) {
   try {
     const updateFields = {};
 
-    if (req.body.Company !== null && req.body.Company !== undefined) {
+    if (req.body.Company?.trim()) {
       updateFields.Company = req.body.Company;
     }
-    if (req.body.Role !== null && req.body.Role !== undefined) {
+    if (req.body.Role?.trim()) {
       updateFields.Role = req.body.Role;
     }
-    if (req.body.status !== null && req.body.status !== undefined) {
+    if (req.body.status?.trim()) {
       updateFields.status = req.body.status;
     }
-    if (req.body.url !== null && req.body.url !== undefined) {
+    if (req.body.url?.trim()) {
       updateFields.url = req.body.url;
     }
 
@@ -121,10 +121,8 @@ router.post("/updateJob", middleware, async function (req, res) {
       message: "Job updated successfully",
     });
   } catch (e) {
-    console.error("Error updating job:", e);
-    res.status(500).send({
-      message: "Server Error",
-    });
+    console.error("Update Error:", e);
+    res.status(500).send({ message: "Server Error" });
   }
 });
 
